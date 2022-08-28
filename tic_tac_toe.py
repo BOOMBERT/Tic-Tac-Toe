@@ -3,23 +3,26 @@ import sys
 
 def get_board(board: list[list[str]]) -> str:
     return f"""
-    {' | '.join(board[0])}
+    {" | ".join(board[0])}
     ----------
-    {' | '.join(board[1])}
+    {" | ".join(board[1])}
     ----------
-    { ' | '.join(board[2])}
+    {" | ".join(board[2])}
     """
 
 
-def set_board(board: list[list[str]], free_places: list[str],
-              x_position: int, y_position: int, mark: str) -> None:
+def set_board(board: list[list[str]], x_position: int, y_position: int, mark: str) -> bool:
 
-    if board[x_position][y_position] != ' ':
+    if board[x_position][y_position] != " ":
         print("\nThis place is taken. Try again!")
+        return False
 
-    else:
-        board[x_position][y_position] = mark
-        free_places.remove((str(x_position) + str(y_position)))
+    board[x_position][y_position] = mark
+    return True
+
+
+def update_free_places(free_places: list[str], x_position: str, y_position: str) -> None:
+    free_places.remove(x_position + y_position)
 
 
 def display_free_places(free_places: list[str]) -> str:
@@ -43,8 +46,8 @@ def check_vertical_lines(board: str) -> bool:
 
 
 def check_diagonal_lines(board: str) -> bool:
-    return board[0::4] in ('OOO', 'XXX') or \
-           board[-3::-2][0:3] in ('OOO', 'XXX')
+    return board[0::4] in ("OOO", "XXX") or \
+           board[-3::-2][0:3] in ("OOO", "XXX")
 
 
 def is_draw(board: str) -> bool:
@@ -55,7 +58,7 @@ def who_won(board: list[list[str]], winner: str) -> bool:
     board_to_check = "".join(["".join(board[i]) for i in range(3)])
 
     if is_draw(board_to_check):
-        print("Draw\n")
+        print("\nDraw\n")
         return True
 
     if check_horizontal_lines(board_to_check) or \
@@ -88,12 +91,8 @@ def main() -> None:
                 if x_position not in ("0", "1", "2") or y_position not in ("0", "1", "2"):
                     print("\nWrong data! Re-enter the correct data")
 
-                else:
-                    set_board(
-                        game_board, free_places_to_taken,
-                        int(x_position), int(y_position),
-                        current_turn
-                    )
+                elif set_board(game_board, int(x_position), int(y_position), current_turn):
+                    update_free_places(free_places_to_taken, x_position, y_position)
                     break
 
             if who_won(game_board, current_turn):
