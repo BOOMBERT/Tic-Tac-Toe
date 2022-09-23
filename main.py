@@ -26,7 +26,7 @@ def update_free_places(free_places: list[str], x_position: str, y_position: str)
 
 
 def display_free_places(free_places: list[str]) -> str:
-    return "Empty places --> " + ", ".join(free_places)
+    return "Free places --> " + ", ".join(free_places)
 
 
 def whose_turn(free_places: list[str]) -> str:
@@ -57,14 +57,14 @@ def is_draw(board: str) -> bool:
 def who_won(board: list[list[str]], winner: str) -> bool:
     board_to_check = "".join(["".join(board[i]) for i in range(3)])
 
-    if is_draw(board_to_check):
-        print("\nDraw\n")
-        return True
-
     if check_horizontal_lines(board_to_check) or \
             check_vertical_lines(board_to_check) or \
             check_diagonal_lines(board_to_check):
         print(f"\nPlayer with '{winner}' won\n")
+        return True
+
+    if is_draw(board_to_check):
+        print("\nDraw\n")
         return True
 
     return False
@@ -84,16 +84,18 @@ def main() -> None:
             while True:
                 print(get_board(game_board))
                 print(display_free_places(free_places_to_taken))
+
                 print(f"Now the player with '{current_turn}' chooses the position\n")
                 x_position = input("Enter the horizontal position (0, 1 or 2) --> ")
                 y_position = input("Enter the vertical position (0, 1 or 2) --> ")
 
                 if x_position not in ("0", "1", "2") or y_position not in ("0", "1", "2"):
                     print("\nWrong data! Re-enter the correct data")
+                    continue
 
-                elif set_board(game_board, int(x_position), int(y_position), current_turn):
-                    update_free_places(free_places_to_taken, x_position, y_position)
-                    break
+                set_board(game_board, int(x_position), int(y_position), current_turn)
+                update_free_places(free_places_to_taken, x_position, y_position)
+                break
 
             if who_won(game_board, current_turn):
                 play_again = input(
@@ -101,13 +103,12 @@ def main() -> None:
                     "if you want to quit the game, type any character --> "
                 )
 
-                if play_again.lower() != "y":
-                    print("Successful exit")
-                    sys.exit(0)
-
-                else:
+                if play_again.lower() == "y":
                     print("\nNew board!")
                     break
+
+                print("Successful exit")
+                sys.exit(0)
 
 
 if __name__ == "__main__":
