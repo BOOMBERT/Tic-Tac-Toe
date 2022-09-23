@@ -1,6 +1,6 @@
-# Tic-tac-toe game
+# Tic-Tac-Toe game
 
-    Simple tic-tac-toe game for 2 players written in python for playing in the terminal.
+Simple tic-tac-toe game for 2 players written in python for playing in the terminal.
 
 
 ## Run Locally
