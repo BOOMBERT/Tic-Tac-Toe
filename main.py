@@ -60,7 +60,7 @@ def who_won(board: list[list[str]], winner: str) -> bool:
     if check_horizontal_lines(board_to_check) or \
             check_vertical_lines(board_to_check) or \
             check_diagonal_lines(board_to_check):
-        print(f"\nPlayer with '{winner}' won\n")
+        print(f"\nPlayer with '{winner}' won")
         return True
 
     if is_draw(board_to_check):
@@ -97,6 +97,8 @@ def main() -> None:
                     break
 
             if who_won(game_board, current_turn):
+                print(get_board(game_board))
+
                 play_again = input(
                     "If you want to play again, type 'y' or "
                     "if you want to quit the game, type any character --> "
