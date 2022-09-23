@@ -91,11 +91,10 @@ def main() -> None:
 
                 if x_position not in ("0", "1", "2") or y_position not in ("0", "1", "2"):
                     print("\nWrong data! Re-enter the correct data")
-                    continue
 
-                set_board(game_board, int(x_position), int(y_position), current_turn)
-                update_free_places(free_places_to_taken, x_position, y_position)
-                break
+                elif set_board(game_board, int(x_position), int(y_position), current_turn):
+                    update_free_places(free_places_to_taken, x_position, y_position)
+                    break
 
             if who_won(game_board, current_turn):
                 play_again = input(
