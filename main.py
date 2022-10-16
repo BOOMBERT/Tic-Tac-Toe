@@ -25,7 +25,7 @@ def update_free_places(free_places: list[str], x_position: str, y_position: str)
     free_places.remove(x_position + y_position)
 
 
-def display_free_places(free_places: list[str]) -> str:
+def free_places_to_display(free_places: list[str]) -> str:
     return "Free places --> " + ", ".join(free_places)
 
 
@@ -34,20 +34,20 @@ def whose_turn(free_places: list[str]) -> str:
 
 
 def check_horizontal_lines(board: str) -> bool:
-    return board[0:3] in ("OOO", "XXX") or \
+    return board[:3] in ("OOO", "XXX") or \
            board[3:6] in ("OOO", "XXX") or \
            board[6:9] in ("OOO", "XXX")
 
 
 def check_vertical_lines(board: str) -> bool:
-    return board[0::3] in ("OOO", "XXX") or \
+    return board[::3] in ("OOO", "XXX") or \
            board[1::3] in ("OOO", "XXX") or \
            board[2::3] in ("OOO", "XXX")
 
 
 def check_diagonal_lines(board: str) -> bool:
-    return board[0::4] in ("OOO", "XXX") or \
-           board[-3::-2][0:3] in ("OOO", "XXX")
+    return board[::4] in ("OOO", "XXX") or \
+           board[-3::-2][:3] in ("OOO", "XXX")
 
 
 def is_draw(board: str) -> bool:
@@ -83,7 +83,7 @@ def main() -> None:
 
             while True:
                 print(get_board(game_board))
-                print(display_free_places(free_places_to_taken))
+                print(free_places_to_display(free_places_to_taken))
 
                 print(f"Now the player with '{current_turn}' chooses the position\n")
                 x_position = input("Enter the horizontal position (0, 1 or 2) --> ")
