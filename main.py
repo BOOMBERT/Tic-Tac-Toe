@@ -25,7 +25,7 @@ def update_free_places(free_places: list[str], x_position: str, y_position: str)
     free_places.remove(x_position + y_position)
 
 
-def free_places_to_display(free_places: list[str]) -> str:
+def display_free_places(free_places: list[str]) -> str:
     return "Free places --> " + ", ".join(free_places)
 
 
@@ -83,7 +83,7 @@ def main() -> None:
 
             while True:
                 print(get_board(game_board))
-                print(free_places_to_display(free_places_to_taken))
+                print(display_free_places(free_places_to_taken))
 
                 print(f"Now the player with '{current_turn}' chooses the position\n")
                 x_position = input("Enter the horizontal position (0, 1 or 2) --> ")
