@@ -12,8 +12,8 @@ class GameBoard:
             f"\nFree fields -> {', '.join(self.free_fields)}"
 
     def set_the_mark(self, x_position: str, y_position: str, mark: str) -> bool:
-        position_of_fields = {"0", "1", "2"}
-        if x_position in position_of_fields and y_position in position_of_fields:
+        POSITION_OF_FIELDS = {"0", "1", "2"}
+        if x_position in POSITION_OF_FIELDS and y_position in POSITION_OF_FIELDS:
             x_position, y_position = int(x_position), int(y_position)
 
         else:
