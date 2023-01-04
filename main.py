@@ -8,8 +8,9 @@ class GameBoard:
         self.free_fields = [str(i) + str(j) for i in range(3) for j in range(3)]
 
     def __str__(self) -> str:
-        return f"{'-' * 9}\n".join((" | ".join(i) + "\n" for i in self.board)) +\
-            f"\nFree fields -> {', '.join(self.free_fields)}"
+        separator = "\n" + "-" * 9 + "\n"
+        return f"{separator.join((' | '.join(line) for line in self.board))}\n\n" \
+               f"Free fields -> {', '.join(self.free_fields)}"
 
     def set_the_mark(self, x_position: str, y_position: str, mark: str) -> bool:
         POSITION_OF_FIELDS = {"0", "1", "2"}
@@ -20,11 +21,11 @@ class GameBoard:
             print("Wrong data! Re-enter the correct data.\n")
             return False
 
-        if self.board[int(x_position)][int(y_position)] != " ":
+        if self.board[x_position][y_position] != " ":
             print("This field is taken. Try again!\n")
             return False
 
-        self.board[int(x_position)][int(y_position)] = mark
+        self.board[x_position][y_position] = mark
         self.update_free_fields(x_position, y_position)
 
         return True
@@ -40,17 +41,17 @@ def whose_turn(free_places: List[str]) -> str:
     return "O" if len(free_places) % 2 != 0 else "X"
 
 
-def whoever_won(board: List[List[str]], mark: str) -> bool:
+def is_the_end_of_the_game(board: List[List[str]], mark: str) -> bool:
     board_lines = "".join("".join(line) for line in board)
 
     if check_the_board.check_horizontal_lines(board_lines) or \
             check_the_board.check_vertical_lines(board_lines) or \
             check_the_board.check_diagonal_lines(board_lines):
-        print(f"Player with '{mark}' won\n")
+        print(f"Player with '{mark}' won!\n")
         return True
 
     if check_the_board.is_draw(board_lines):
-        print("Draw\n")
+        print("Draw!\n")
         return True
 
     return False
@@ -75,7 +76,7 @@ def game() -> None:
             if game_board.set_the_mark(x_position, y_position, current_turn):
                 break
 
-        if whoever_won(game_board.board, current_turn):
+        if is_the_end_of_the_game(game_board.board, current_turn):
             print(game_board)
 
             play_again = input(
