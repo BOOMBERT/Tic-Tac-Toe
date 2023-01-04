@@ -12,27 +12,28 @@ class GameBoard:
         return f"{separator.join((' | '.join(line) for line in self.board))}\n\n" \
                f"Free fields -> {', '.join(self.free_fields)}"
 
-    def set_the_mark(self, x_position: str, y_position: str, mark: str) -> bool:
+    def set_the_mark(self, horizontal_position: str, vertical_position: str, mark: str) -> bool:
         POSITION_OF_FIELDS = {"0", "1", "2"}
-        if x_position in POSITION_OF_FIELDS and y_position in POSITION_OF_FIELDS:
-            x_position, y_position = int(x_position), int(y_position)
+        if horizontal_position in POSITION_OF_FIELDS and vertical_position in POSITION_OF_FIELDS:
+            horizontal_position = int(horizontal_position)
+            vertical_position = int(vertical_position)
 
         else:
             print("Wrong data! Re-enter the correct data.\n")
             return False
 
-        if self.board[x_position][y_position] != " ":
+        if self.board[horizontal_position][vertical_position] != " ":
             print("This field is taken. Try again!\n")
             return False
 
-        self.board[x_position][y_position] = mark
-        self.update_free_fields(x_position, y_position)
+        self.board[horizontal_position][vertical_position] = mark
+        self.update_free_fields(horizontal_position, vertical_position)
 
         return True
 
-    def update_free_fields(self, x_position: int, y_position: int) -> None:
+    def update_free_fields(self, horizontal_position: int, vertical_position: int) -> None:
         try:
-            self.free_fields.remove(str(x_position) + str(y_position))
+            self.free_fields.remove(str(horizontal_position) + str(vertical_position))
         except ValueError:
             print("The free fields are not synchronized with the board.")
 
@@ -69,11 +70,11 @@ def game() -> None:
             print(game_board)
             print(f"Now the player with '{current_turn}' chooses the field\n")
 
-            x_position = input("Enter the horizontal position (0, 1 or 2) -> ")
-            y_position = input("Enter the vertical position (0, 1 or 2) -> ")
+            horizontal_position = input("Enter the horizontal position (0, 1 or 2) -> ")
+            vertical_position = input("Enter the vertical position (0, 1 or 2) -> ")
             print()
 
-            if game_board.set_the_mark(x_position, y_position, current_turn):
+            if game_board.set_the_mark(horizontal_position, vertical_position, current_turn):
                 break
 
         if is_the_end_of_the_game(game_board.board, current_turn):
